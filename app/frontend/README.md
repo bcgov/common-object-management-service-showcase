@@ -4,7 +4,7 @@ This is the Showcase frontend. It implements a Vue frontend with Keycloak authen
 
 ## Configuration
 
-The Showcase frontend will require some configuration. We will need to configure the application to authenticate using the same Keycloak realm as the COMS instance. Configuration is served from the backend. See the parent readme  [parent App readme](../README.md) for details on config.
+The Showcase frontend will require some configuration. We will need to configure the application to authenticate using the same Keycloak realm as the COMS instance. Configuration is served from the backend. See the [parent App readme](../README.md) for details on config.
 
 ## Super Quickstart
 
@@ -42,4 +42,4 @@ npm run lint
 
 ### Customize configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Configuration Reference](https://cli.vuejs.org/config/) for any desired Vue App customization. (Note that necessary config for the Showcase app is served from its [backend](../README.md))

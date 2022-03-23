@@ -7,6 +7,8 @@
 
 A showcase application for the Common Object Management Service (COMS).
 
+This showcase application will show how a frontend web app with authenticated users can integrate with the a COMS instance to upload, list, and manage objects in an S3 storage.
+
 ## Directory Structure
 
     .github/                   - PR and Issue templates
@@ -16,7 +18,6 @@ A showcase application for the Common Object Management Service (COMS).
     │   └── tests/             - Vue.js frontend web application tests
     ├── src/                   - Node.js backend web application
     └── tests/                 - Node.js backend web application tests
-    openshift/                 - OpenShift-deployment and shared pipeline files
     CODE-OF-CONDUCT.md         - Code of Conduct
     COMPLIANCE.yaml            - BCGov PIA/STRA compliance status
     CONTRIBUTING.md            - Contributing Guidelines
@@ -26,8 +27,6 @@ A showcase application for the Common Object Management Service (COMS).
 
 * [Application Readme](app/README.md)
 * [Frontend Readme](app/frontend/README.md)
-* [Openshift Readme](openshift/README.md)
-* [Devops Tools Setup](https://github.com/bcgov/nr-showcase-devops-tools)
 
 ## Quick Start Dev Guide
 
