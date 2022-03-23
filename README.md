@@ -20,8 +20,6 @@ A showcase application for the Common Object Management Service (COMS).
     CODE-OF-CONDUCT.md         - Code of Conduct
     COMPLIANCE.yaml            - BCGov PIA/STRA compliance status
     CONTRIBUTING.md            - Contributing Guidelines
-    Jenkinsfile                - Top-level Pipeline
-    Jenkinsfile.cicd           - Pull-Request Pipeline
     LICENSE                    - License
 
 ## Documentation
