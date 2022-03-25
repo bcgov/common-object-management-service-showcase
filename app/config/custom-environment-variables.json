@@ -2,6 +2,9 @@
   "frontend": {
     "apiPath": "FRONTEND_APIPATH",
     "basePath": "FRONTEND_BASEPATH",
+    "coms": {
+      "endpoint": "FRONTEND_COMS_ENDPOINT"
+    },
     "keycloak": {
       "clientId": "FRONTEND_KC_CLIENTID",
       "realm": "FRONTEND_KC_REALM",
@@ -10,7 +13,7 @@
   },
   "server": {
     "apiPath": "SERVER_APIPATH",
-    "basePath" : "SERVER_BASEPATH",
+    "basePath": "SERVER_BASEPATH",
     "bodyLimit": "SERVER_BODYLIMIT",
     "logFile": "SERVER_LOGFILE",
     "logLevel": "SERVER_LOGLEVEL",

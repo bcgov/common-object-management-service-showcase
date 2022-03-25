@@ -6,7 +6,7 @@
           <router-link :to="{ name: 'Home' }">Home</router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'Secure' }">Secure</router-link>
+          <router-link :to="{ name: 'MyFiles' }">My Files</router-link>
         </li>
       </ul>
     </div>

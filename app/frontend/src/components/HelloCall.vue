@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import helloService from '@/services/helloService';
+import showcaseService from '@/services/showcaseService';
 
 export default {
   name: 'HelloWorld',
@@ -33,7 +33,7 @@ export default {
       this.error = false;
       this.loading = true;
       try {
-        const response = await helloService.getHello();
+        const response = await showcaseService.getHello();
         this.helloData = response.data;
       } catch (e) {
         this.error = true;

@@ -1,1 +1,1 @@
-export { default as helloService } from './helloService';
+export { default as comsService } from './comsService';

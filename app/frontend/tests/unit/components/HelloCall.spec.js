@@ -1,10 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
 
 import HelloCall from '@/components/HelloCall.vue';
-import helloService from '@/services/helloService';
+import showcaseService from '@/services/showcaseService';
 
 describe('HelloCall.vue', () => {
-  const getHelloSpy = jest.spyOn(helloService, 'getHello');
+  const getHelloSpy = jest.spyOn(showcaseService, 'getHello');
 
   beforeEach(() => {
     getHelloSpy.mockReset();
