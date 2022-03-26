@@ -27,7 +27,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('objects', ['createObject']),
+    ...mapActions('objects', ['createObject', 'getUserObjects']),
     handleFileImport() {
       this.isSelecting = true;
 
@@ -43,10 +43,11 @@ export default {
       // Trigger click on the FileInput
       this.$refs.uploader.click();
     },
-    onFileChanged(e) {
+    async onFileChanged(e) {
       this.selectedFile = e.target.files[0];
-      this.createObject(this.selectedFile);
+      await this.createObject(this.selectedFile);
       this.selectedFile = null;
+      await this.getUserObjects();
     },
   },
 };

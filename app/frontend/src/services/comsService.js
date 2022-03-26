@@ -12,5 +12,14 @@ export default {
     let fd = new FormData();
     fd.append('file', object);
     return comsAxios().post('/object', fd, config);
+  },
+
+  /**
+   * @function listObjects
+   * List and search for all objects
+   * @returns {Promise} An axios response
+   */
+  listObjects() {
+    return comsAxios().get('/object');
   }
 };

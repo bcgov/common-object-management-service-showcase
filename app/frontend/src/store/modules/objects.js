@@ -16,7 +16,7 @@ export default {
     SET_OBJECTS(state, objects) {
       state.objects = objects;
     },
-    SET_SELECTED_OBJECTS(state, obj) {
+    SET_SELECTED_OBJECT(state, obj) {
       state.selectedObject = obj;
     }
   },
@@ -38,10 +38,10 @@ export default {
         }, { root: true });
       }
     },
-    // Get objects list
-    async getObjects({ dispatch, commit }) {
+    // Get objects list for the current user token
+    async getUserObjects({ dispatch, commit }) {
       try {
-        const response = await comsService.getObjects();
+        const response = await comsService.listObjects();
         commit('SET_OBJECTS', response.data);
       } catch (error) {
         dispatch('notifications/addNotification', {
