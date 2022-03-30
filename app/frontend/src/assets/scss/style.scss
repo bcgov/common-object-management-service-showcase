@@ -80,16 +80,6 @@ a, .v-tab {
     background-color: #eee;
     color: #777;
   }
-
-  &.v-btn--outlined {
-    &.theme--light {
-      border: 2px solid #003366;
-    }
-
-    &.theme--dark {
-      border: 2px solid #fff;
-    }
-  }
 }
 
 // Stepper

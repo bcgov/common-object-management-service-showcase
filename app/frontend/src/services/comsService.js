@@ -15,6 +15,15 @@ export default {
   },
 
   /**
+   * @function deleteObject
+   * Delete an object
+   * @returns {Promise} An axios response
+   */
+  deleteObject(objectId) {
+    return comsAxios().delete(`/object/${objectId}`);
+  },
+
+  /**
    * @function listObjects
    * List and search for all objects
    * @returns {Promise} An axios response

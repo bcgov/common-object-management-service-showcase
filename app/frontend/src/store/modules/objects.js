@@ -21,7 +21,7 @@ export default {
     }
   },
   actions: {
-    // Upload a file
+    // Upload an object
     async createObject({ dispatch }, object) {
       try {
         const response = await comsService.createObject(object);
@@ -38,6 +38,19 @@ export default {
         }, { root: true });
       }
     },
+
+    // Delete a specific object
+    async deleteObject({ dispatch }, objectId) {
+      try {
+        await comsService.deleteObject(objectId);
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while deleting.',
+          consoleError: `Error deleting object ${objectId}: ${error}`,
+        }, { root: true });
+      }
+    },
+
     // Get objects list for the current user token
     async getUserObjects({ dispatch, commit }) {
       try {
@@ -50,12 +63,5 @@ export default {
         }, { root: true });
       }
     },
-
-    // Re-get the relevant info for the Acme page
-    // async refreshLob({ commit, dispatch }) {
-    //   commit('SET_SELECTED_APPLICANT', null);
-    //   await dispatch('sandbox/refreshCurrentSandbox', {}, { root: true });
-    //   await dispatch('getApplicants');
-    // },
   }
 };
