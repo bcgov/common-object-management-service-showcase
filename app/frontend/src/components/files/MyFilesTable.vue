@@ -23,12 +23,73 @@
           <template #[`item.updatedAt`]="{ item }">
             {{ item.updatedAt | formatDateLong }}
           </template>
-          <template #[`item.public`]="{ item }">
-            <v-switch disabled :label="`Public: ${item.public}`"></v-switch>
+          <template #[`item.public`]>
+            <v-switch disabled></v-switch>
+          </template>
+          <template #[`item.actions`]="{ item }">
+            <!-- Share -->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="primary" icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-share-variant</v-icon>
+                </v-btn>
+              </template>
+              <span>Share</span>
+            </v-tooltip>
+
+            <!-- Download -->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="primary" icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-download</v-icon>
+                </v-btn>
+              </template>
+              <span>File details</span>
+            </v-tooltip>
+
+            <!-- Permissions -->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="primary" icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-account-group</v-icon>
+                </v-btn>
+              </template>
+              <span>Permissions</span>
+            </v-tooltip>
+
+            <!-- File Details -->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="readObject(item.id)"
+                >
+                  <v-icon>mdi-information</v-icon>
+                </v-btn>
+              </template>
+              <span>File details</span>
+            </v-tooltip>
+
+            <!-- Delete -->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="error" icon v-bind="attrs" v-on="on">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+              </template>
+              <span>Delete</span>
+            </v-tooltip>
           </template>
         </v-data-table>
       </div>
-      <div v-if="selectedObject" class="flex-shrink-1" style="max-width: 33%;">
+      <div
+        v-if="loadingDisplay || displayObject"
+        class="flex-shrink-1"
+        style="max-width: 33%"
+      >
         <TableSide />
       </div>
     </div>
@@ -57,25 +118,30 @@ export default {
         { text: 'Created', value: 'createdAt' },
         { text: 'Updated', value: 'updatedAt' },
         { text: 'Public', value: 'public' },
-        { text: 'Actions', align: 'end' },
+        { text: 'Actions', value: 'actions', align: 'end' },
       ],
     };
   },
   computed: {
-    ...mapGetters('objects', ['objects', 'selectedObject']),
+    ...mapGetters('objects', [
+      'displayObject',
+      'loadingDisplay',
+      'objects',
+      'selectedObjects',
+    ]),
     selected: {
-      // Some basic v-model to state mapping. Use vuex-map-fields if this is needed anywhere else
+      // Some basic v-model to state mapping. Use vuex-map-fields if this is needed much anywhere else
       get() {
-        return [this.selectedObject];
+        return this.selectedObjects;
       },
       set(value) {
-        this.SET_SELECTED_OBJECT(value[0]);
+        this.SET_SELECTED_OBJECTS(value);
       },
     },
   },
   methods: {
-    ...mapActions('objects', ['getUserObjects']),
-    ...mapMutations('objects', ['SET_SELECTED_OBJECT']),
+    ...mapActions('objects', ['getUserObjects', 'readObject']),
+    ...mapMutations('objects', ['SET_SELECTED_OBJECTS']),
   },
   async mounted() {
     await this.getUserObjects();

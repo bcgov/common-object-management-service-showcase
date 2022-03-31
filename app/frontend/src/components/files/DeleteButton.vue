@@ -2,7 +2,7 @@
   <v-btn
     color="error"
     outlined
-    :disabled="!selectedObject"
+    :disabled="!selectedObjects.length"
     @click="showDialog = true"
     class="ml-3"
   >
@@ -35,12 +35,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('objects', ['selectedObject']),
+    ...mapGetters('objects', ['selectedObjects']),
   },
   methods: {
     ...mapActions('objects', ['deleteObject', 'getUserObjects']),
     async confirmDelete() {
-      await this.deleteObject(this.selectedObject.id);
+      await this.deleteObject(this.selectedObjects[0].id);
       this.showDialog = false; 
       // reload the main list after
       this.getUserObjects();
