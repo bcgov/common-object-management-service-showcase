@@ -69,13 +69,6 @@ a, .v-tab {
     font-weight: bold;
   }
 
-  &:hover {
-    opacity: 0.8;
-    span > span {
-      text-decoration: underline;
-    }
-  }
-
   &.v-btn--disabled {
     background-color: #eee;
     color: #777;

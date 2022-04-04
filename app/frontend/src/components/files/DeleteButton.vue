@@ -1,12 +1,13 @@
 <template>
   <v-btn
     color="error"
-    outlined
-    :disabled="!selectedObjects.length"
+    :disabled="mode === 'BUTTON' && !selectedObjects.length"
+    :icon="mode === 'ICON'"
+    :outlined="mode === 'BUTTON'"
     @click="showDialog = true"
-    class="ml-3"
   >
-    <v-icon left> mdi-delete </v-icon> Delete
+    <v-icon> mdi-delete </v-icon>
+    <span v-if="mode === 'BUTTON'">Delete</span>
 
     <!-- Delete File -->
     <BaseDialog
@@ -29,6 +30,16 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'DeleteButton',
+  props: {
+    // either BUTTON or ICON
+    mode: {
+      type: String,
+      required: true,
+    },
+    objectId: {
+      type: String,
+    },
+  },
   data() {
     return {
       showDialog: false,
@@ -40,8 +51,10 @@ export default {
   methods: {
     ...mapActions('objects', ['deleteObject', 'getUserObjects']),
     async confirmDelete() {
-      await this.deleteObject(this.selectedObjects[0].id);
-      this.showDialog = false; 
+      await this.deleteObject(
+        this.objectId ? this.objectId : this.selectedObjects[0].id
+      );
+      this.showDialog = false;
       // reload the main list after
       this.getUserObjects();
     },

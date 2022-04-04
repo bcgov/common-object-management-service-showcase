@@ -60,6 +60,20 @@ export default {
       }
     },
 
+    // Get a specific object
+    async downloadObject({ dispatch }, objectId) {
+      try {
+        debugger;
+        await comsService.getObject(objectId);
+        debugger;
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while getting the object.',
+          consoleError: `Error getting object ${objectId}: ${error}`,
+        }, { root: true });
+      }
+    },    
+
     // Get objects list for the current user token
     async getUserObjects({ dispatch, commit }) {
       try {
@@ -83,11 +97,11 @@ export default {
 
         // Get some data about the object out of the list (since there's no API calls to get this)
         const objFromList = state.objects.find(o => o.id === objectId);
-
+        
         debugger;
         // TODO: extract to some transform util rather than here?
         const toDisplay = {
-          name: objFromList.originalName,
+          name: hResponse.headers['x-amz-meta-name'],
           size: hResponse.headers['content-length'],
           // type:
           uploaded: objFromList.createdAt,
@@ -113,7 +127,6 @@ export default {
       } finally {
         commit('SET_LOADING_DISPLAY', false);
       }
-
     },
   }
 };

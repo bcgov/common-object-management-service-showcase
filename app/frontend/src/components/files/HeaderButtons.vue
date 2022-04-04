@@ -2,9 +2,9 @@
   <div>
     <UploadButton />
 
-    <DownloadButton />
+    <DownloadButton mode="BUTTON" />
 
-    <DeleteButton />
+    <DeleteButton mode="BUTTON" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ import DownloadButton from '@/components/files/DownloadButton.vue';
 import UploadButton from '@/components/files/UploadButton.vue';
 
 export default {
-  name: 'FileButtons',
+  name: 'HeaderButtons',
   components: {
     DeleteButton,
     DownloadButton,
@@ -22,3 +22,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-btn {
+  margin-right: 1em;
+}
+</style>

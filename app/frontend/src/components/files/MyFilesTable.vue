@@ -27,61 +27,7 @@
             <v-switch disabled></v-switch>
           </template>
           <template #[`item.actions`]="{ item }">
-            <!-- Share -->
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                  <v-icon>mdi-share-variant</v-icon>
-                </v-btn>
-              </template>
-              <span>Share</span>
-            </v-tooltip>
-
-            <!-- Download -->
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                  <v-icon>mdi-download</v-icon>
-                </v-btn>
-              </template>
-              <span>File details</span>
-            </v-tooltip>
-
-            <!-- Permissions -->
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                  <v-icon>mdi-account-group</v-icon>
-                </v-btn>
-              </template>
-              <span>Permissions</span>
-            </v-tooltip>
-
-            <!-- File Details -->
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  @click="readObject(item.id)"
-                >
-                  <v-icon>mdi-information</v-icon>
-                </v-btn>
-              </template>
-              <span>File details</span>
-            </v-tooltip>
-
-            <!-- Delete -->
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="error" icon v-bind="attrs" v-on="on">
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-              </template>
-              <span>Delete</span>
-            </v-tooltip>
+            <ActionButtons :tableRow="item" @read-object="readObject(item.id)"/>
           </template>
         </v-data-table>
       </div>
@@ -99,10 +45,12 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
+import ActionButtons from '@/components/files/ActionButtons.vue';
 import TableSide from '@/components/files/TableSide.vue';
 
 export default {
   components: {
+    ActionButtons,
     TableSide,
   },
   data() {

@@ -28,6 +28,16 @@ export default {
   },
 
   /**
+   * @function getObject
+   * Get an object
+   * @param objectId The id for the object to get
+   * @returns {Promise} An axios response
+   */
+  getObject(objectId) {
+    return comsAxios().get(`/object/${objectId}`);
+  },
+
+  /**
    * @function listObjects
    * List and search for all objects
    * @returns {Promise} An axios response
@@ -38,7 +48,7 @@ export default {
 
   /**
    * @function readObject
-   * Get an object
+   * Get an object details (head call)
    * @param objectId The id for the object to get
    * @returns {Promise} An axios response
    */
