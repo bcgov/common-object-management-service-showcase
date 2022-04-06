@@ -96,7 +96,6 @@ export default {
         // Get some data about the object out of the list (since there's no API calls to get this)
         const objFromList = state.objects.find(o => o.id === objectId);
 
-        debugger;
         // TODO: extract to some transform util rather than here?
         const toDisplay = {
           name: hResponse.headers['x-amz-meta-name'],
@@ -112,11 +111,11 @@ export default {
           // public:
           versions: vResponse.data,
           permissions: {
-            create: pResponse.data.filter(p => p.permCode === 'CREATE').map(p => p.oidcId),
-            read: pResponse.data.filter(p => p.permCode === 'READ').map(p => p.oidcId),
-            update: pResponse.data.filter(p => p.permCode === 'UPDATE').map(p => p.oidcId),
-            delete: pResponse.data.filter(p => p.permCode === 'DELETE').map(p => p.oidcId),
-            manage: pResponse.data.filter(p => p.permCode === 'MANAGE').map(p => p.oidcId)
+            create: pResponse.data.filter(p => p.permCode === 'CREATE').map(p => p.userId),
+            read: pResponse.data.filter(p => p.permCode === 'READ').map(p => p.userId),
+            update: pResponse.data.filter(p => p.permCode === 'UPDATE').map(p => p.userId),
+            delete: pResponse.data.filter(p => p.permCode === 'DELETE').map(p => p.userId),
+            manage: pResponse.data.filter(p => p.permCode === 'MANAGE').map(p => p.userId)
           }
         };
         commit('SET_DISPLAY_OBJECT', toDisplay);
