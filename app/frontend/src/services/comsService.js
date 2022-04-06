@@ -1,4 +1,5 @@
 import { comsAxios } from '@/services/interceptors';
+import Vue from 'vue';
 
 // Calls to the COMS API
 export default {
@@ -31,10 +32,27 @@ export default {
    * @function getObject
    * Get an object
    * @param objectId The id for the object to get
-   * @returns {Promise} An axios response
    */
   getObject(objectId) {
-    return comsAxios().get(`/object/${objectId}`);
+    // Not sure how to do opaqueredirect with axios so leaning back to fetch for this one
+    // https://github.com/axios/axios/issues/932
+    const url = comsAxios();
+    const auth = `Bearer ${Vue.prototype.$keycloak.token}`;
+    return fetch(`${url.defaults.baseURL}/object/${objectId}`, {
+      redirect: 'manual',
+      headers: {
+        'Authorization': auth
+      }
+    }).then((res) => {
+      if (res.type === 'opaqueredirect') {
+        window.open(
+          res.url,
+          '_blank'
+        );
+      } else {
+        throw new Error(`Not a redirect. Status: ${res.status}`);
+      }
+    });
   },
 
   /**

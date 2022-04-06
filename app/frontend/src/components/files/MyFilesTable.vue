@@ -1,12 +1,6 @@
 <template>
   <div>
-    <p class="my-10">
-      <v-icon color="red">mdi-alert-box</v-icon> COMS doesn't support getting
-      files for a specific user at the moment so this only works with NO-AUTH
-      through the showcase app
-    </p>
-
-    <div class="d-flex">
+    <div class="d-flex mt-12">
       <div class="flex-grow-1">
         <v-data-table
           v-model="selected"

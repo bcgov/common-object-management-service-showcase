@@ -36,12 +36,16 @@
         <v-col cols="8"> {{ displayObject.name }}</v-col>
       </v-row>
       <v-row>
+        <v-col cols="4">GUID:</v-col>
+        <v-col cols="8"> {{ displayObject.guid }}</v-col>
+      </v-row>
+      <v-row>
         <v-col cols="4">Size (content-length):</v-col>
         <v-col cols="8"> {{ displayObject.size }}</v-col>
       </v-row>
       <v-row>
         <v-col cols="4">Type:</v-col>
-        <v-col cols="8"> TBD</v-col>
+        <v-col cols="8"> {{ displayObject.type }}</v-col>
       </v-row>
       <v-row>
         <v-col cols="4">Uploaded:</v-col>
