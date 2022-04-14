@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import HeaderButtons from '@/components/files/HeaderButtons.vue';
-import MyFilesTable from '@/components/files/MyFilesTable.vue';
+import HeaderButtons from '@/components/objectList/HeaderButtons.vue';
+import MyFilesTable from '@/components/objectList/MyFilesTable.vue';
 
 export default {
   name: 'MyFiles',

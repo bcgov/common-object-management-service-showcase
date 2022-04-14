@@ -73,6 +73,21 @@ export default {
   readObject(objectId) {
     return comsAxios().head(`/object/${objectId}`);
   },
+
+  /**
+   * @function togglePublic
+   * Toggles the public property for an object
+   * @param objectId The id for the object 
+   * @param isPublic Boolean on public status 
+   * @returns {Promise} An axios response
+   */
+  togglePublic(objectId, isPublic) {
+    return comsAxios().patch(`/object/${objectId}/public`, null, {
+      params: {
+        public: isPublic
+      }
+    });
+  },
   // -----------------------------------------------------/object
 
 

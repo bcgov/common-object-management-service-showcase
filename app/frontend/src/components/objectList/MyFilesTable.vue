@@ -17,8 +17,8 @@
           <template #[`item.updatedAt`]="{ item }">
             {{ item.updatedAt | formatDateLong }}
           </template>
-          <template #[`item.public`]>
-            <v-switch disabled></v-switch>
+          <template #[`item.public`]="{ item }">
+            <PublicToggle :isPublic="item.public" :objId="item.id" />
           </template>
           <template #[`item.actions`]="{ item }">
             <ActionButtons :tableRow="item" @read-object="readObject(item.id)"/>
@@ -39,12 +39,14 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
-import ActionButtons from '@/components/files/ActionButtons.vue';
-import TableSide from '@/components/files/TableSide.vue';
+import ActionButtons from '@/components/objectList/ActionButtons.vue';
+import PublicToggle from '@/components/objectList/PublicToggle.vue';
+import TableSide from '@/components/objectList/TableSide.vue';
 
 export default {
   components: {
     ActionButtons,
+    PublicToggle,
     TableSide,
   },
   data() {

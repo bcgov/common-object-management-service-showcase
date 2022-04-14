@@ -108,7 +108,7 @@ export default {
           uploadedBy: objFromList.createdBy,
           modified: hResponse.headers['last-modified'],
           // modifiedBy
-          // public:
+          public: objFromList.public,
           versions: vResponse.data,
           permissions: {
             create: pResponse.data.filter(p => p.permCode === 'CREATE').map(p => p.userId),
@@ -128,5 +128,25 @@ export default {
         commit('SET_LOADING_DISPLAY', false);
       }
     },
+
+    // Toggles the public property for an object
+    async togglePublic({ dispatch }, obj) {
+      try {
+        const response = await comsService.togglePublic(obj.objectId, obj.isPublic === true);
+        if (response) {
+          dispatch('notifications/addNotification', {
+            message: `Toggled Public status for ${response.data.originalName} to ${response.data.public}`,
+            type: NotificationTypes.SUCCESS
+          }, { root: true });
+        } else {
+          throw new Error('no response from PATCH endpoint');
+        }
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while toggling public status.',
+          consoleError: `Error toggling public for ${JSON.stringify(obj)}: ${error}`,
+        }, { root: true });
+      }
+    }
   }
 };

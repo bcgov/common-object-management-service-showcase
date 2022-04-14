@@ -66,7 +66,7 @@
       <v-row align="center">
         <v-col cols="4">Make file public:</v-col>
         <v-col cols="8">
-          <v-switch disabled></v-switch>
+          <PublicToggle :isPublic="displayObject.public" :objId="displayObject.guid" />
         </v-col>
       </v-row>
       <h3 class="mt-4 mb-8">Who has access</h3>
@@ -97,7 +97,12 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 
+import PublicToggle from '@/components/objectList/PublicToggle.vue';
+
 export default {
+  components: {
+    PublicToggle
+  },
   computed: {
     ...mapGetters('objects', ['displayObject', 'loadingDisplay']),
   },
