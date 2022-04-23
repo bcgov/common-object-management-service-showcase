@@ -4,14 +4,7 @@
       <v-row>
         <v-col cols="12" sm="6"><h3 class="mb-8">Properties</h3></v-col>
         <v-col cols="12" sm="6" class="text-right">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="primary" icon v-bind="attrs" v-on="on">
-                <v-icon> mdi-file-multiple </v-icon>
-              </v-btn>
-            </template>
-            <span>Version History</span>
-          </v-tooltip>
+          <VersionHistory />
 
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -66,7 +59,10 @@
       <v-row align="center">
         <v-col cols="4">Make file public:</v-col>
         <v-col cols="8">
-          <PublicToggle :isPublic="displayObject.public" :objId="displayObject.guid" />
+          <PublicToggle
+            :isPublic="displayObject.public"
+            :objId="displayObject.guid"
+          />
         </v-col>
       </v-row>
       <h3 class="mt-4 mb-8">Who has access</h3>
@@ -98,10 +94,12 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 import PublicToggle from '@/components/objectList/PublicToggle.vue';
+import VersionHistory from '@/components/objectList/VersionHistory.vue';
 
 export default {
   components: {
-    PublicToggle
+    PublicToggle,
+    VersionHistory,
   },
   computed: {
     ...mapGetters('objects', ['displayObject', 'loadingDisplay']),

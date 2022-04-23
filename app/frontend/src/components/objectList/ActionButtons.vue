@@ -20,7 +20,7 @@
           v-on="on"
         />
       </template>
-      <span>File details</span>
+      <span>Download Object</span>
     </v-tooltip>
 
     <!-- Permissions -->
@@ -52,12 +52,12 @@
     <!-- Delete -->
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <DeleteButton
-          mode="ICON"
-          :objectId="tableRow.id"
-          v-bind="attrs"
-          v-on="on"
-        />
+        <span v-bind="attrs" v-on="on">
+          <DeleteButton
+            mode="ICON"
+            :objectId="tableRow.id"
+          />
+        </span>
       </template>
       <span>Delete</span>
     </v-tooltip>
@@ -85,6 +85,6 @@ export default {
 
 <style lang="scss" scoped>
 .v-btn {
-  margin-left: .5em;
+  margin-left: 0.5em;
 }
 </style>
