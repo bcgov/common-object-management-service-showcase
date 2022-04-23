@@ -22,6 +22,12 @@ export default {
     SET_LOADING_DISPLAY(state, obj) {
       state.loadingDisplay = obj;
     },
+    SET_OBJECT_ITEM_PUBLIC(state, obj) {
+      const objToSet = state.objects.find(o => o.id === obj.id);
+      if (objToSet) {
+        objToSet.public = obj.public;
+      }
+    },
     SET_OBJECTS(state, objects) {
       state.objects = objects;
     },
@@ -130,7 +136,7 @@ export default {
     },
 
     // Toggles the public property for an object
-    async togglePublic({ dispatch }, obj) {
+    async togglePublic({ commit, dispatch }, obj) {
       try {
         const response = await comsService.togglePublic(obj.objectId, obj.isPublic === true);
         if (response) {
@@ -138,6 +144,8 @@ export default {
             message: `Toggled Public status for ${response.data.originalName} to ${response.data.public}`,
             type: NotificationTypes.SUCCESS
           }, { root: true });
+          // Update the one in the all objects collection for the table rows
+          commit('SET_OBJECT_ITEM_PUBLIC', { id: obj.objectId, public: obj.isPublic });
         } else {
           throw new Error('no response from PATCH endpoint');
         }
