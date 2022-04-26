@@ -84,11 +84,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions('objects', ['getUserObjects', 'readObject']),
+    ...mapActions('objects', ['getMyObjects', 'readObject']),
     ...mapMutations('objects', ['SET_SELECTED_OBJECTS']),
   },
   async mounted() {
-    await this.getUserObjects();
+    await this.getMyObjects();
     this.loading = false;
   },
 };

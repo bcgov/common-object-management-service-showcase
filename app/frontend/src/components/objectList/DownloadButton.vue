@@ -25,6 +25,9 @@ export default {
     objectId: {
       type: String,
     },
+    versionId: {
+      type: String,
+    },
   },
   computed: {
     ...mapGetters('objects', ['selectedObjects']),
@@ -33,9 +36,11 @@ export default {
     ...mapActions('objects', ['downloadObject']),
     async download() {
       // Download the object (either the selected one from the checkbox, or the specified one from the row)
-      await this.downloadObject(
-        this.objectId ? this.objectId : this.selectedObjects[0].id
-      );
+      await this.downloadObject({
+        objectId: this.objectId ? this.objectId : this.selectedObjects[0].id,
+        versionId: this.versionId,
+        download: true,
+      });
     },
   },
 };

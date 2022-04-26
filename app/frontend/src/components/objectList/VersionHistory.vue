@@ -12,6 +12,7 @@
           <template #title>
             <v-icon color="primary" class="mr-5"> mdi-file-multiple </v-icon>
             Version history for <br />
+            {{ displayObject.guid }}
           </template>
           <template #text>
             <v-data-table
@@ -29,10 +30,7 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <span v-bind="attrs" v-on="on">
-                      <DownloadButton
-                        mode="ICON"
-                        :objectId="item.VersionId"
-                      />
+                      <DownloadButton mode="ICON" :objectId="displayObject.guid" :versionId="item.VersionId" />
                     </span>
                   </template>
                   <span>Download Version</span>
@@ -77,11 +75,11 @@ export default {
     ...mapGetters('objects', ['displayObject']),
   },
   methods: {
-    ...mapActions('objects', ['deleteObject', 'getUserObjects']),
+    ...mapActions('objects', ['deleteObject', 'getMyObjects']),
     async showHistory() {
       this.showDialog = true;
       // reload the main list after
-      this.getUserObjects();
+      this.getMyObjects();
     },
   },
 };

@@ -22,7 +22,7 @@ export default {
     ...mapGetters('objects', ['selectedObject']),
   },
   methods: {
-    ...mapActions('objects', ['createObject', 'getUserObjects']),
+    ...mapActions('objects', ['createObject', 'getMyObjects']),
     handleFileImport() {
       this.isSelecting = true;
 
@@ -42,7 +42,7 @@ export default {
       this.selectedFile = e.target.files[0];
       await this.createObject(this.selectedFile);
       this.selectedFile = null;
-      await this.getUserObjects();
+      await this.getMyObjects();
     },
   },
 };

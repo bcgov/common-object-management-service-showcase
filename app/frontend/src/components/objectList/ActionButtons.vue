@@ -13,12 +13,9 @@
     <!-- Download -->
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <DownloadButton
-          mode="ICON"
-          :objectId="tableRow.id"
-          v-bind="attrs"
-          v-on="on"
-        />
+        <span v-bind="attrs" v-on="on">
+          <DownloadButton mode="ICON" :objectId="tableRow.id" />
+        </span>
       </template>
       <span>Download Object</span>
     </v-tooltip>
@@ -26,9 +23,9 @@
     <!-- Permissions -->
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" icon v-bind="attrs" v-on="on">
-          <v-icon>mdi-account-group</v-icon>
-        </v-btn>
+        <span v-bind="attrs" v-on="on">
+          <ObjectPermissions :objectId="tableRow.id" :objectName="tableRow.originalName" />
+        </span>
       </template>
       <span>Permissions</span>
     </v-tooltip>
@@ -53,10 +50,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <span v-bind="attrs" v-on="on">
-          <DeleteButton
-            mode="ICON"
-            :objectId="tableRow.id"
-          />
+          <DeleteButton mode="ICON" :objectId="tableRow.id" />
         </span>
       </template>
       <span>Delete</span>
@@ -67,6 +61,7 @@
 <script>
 import DeleteButton from '@/components/objectList/DeleteButton.vue';
 import DownloadButton from '@/components/objectList/DownloadButton.vue';
+import ObjectPermissions from '@/components/objectList/ObjectPermissions.vue';
 
 export default {
   name: 'ActionButtons',
@@ -79,6 +74,7 @@ export default {
   components: {
     DeleteButton,
     DownloadButton,
+    ObjectPermissions,
   },
 };
 </script>

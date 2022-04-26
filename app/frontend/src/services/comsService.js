@@ -32,27 +32,45 @@ export default {
    * @function getObject
    * Get an object
    * @param objectId The id for the object to get
+   * @param versionId An optional versionId
    */
-  getObject(objectId) {
-    // Not sure how to do opaqueredirect with axios so leaning back to fetch for this one
-    // https://github.com/axios/axios/issues/932
-    const url = comsAxios();
-    const auth = `Bearer ${Vue.prototype.$keycloak.token}`;
-    return fetch(`${url.defaults.baseURL}/object/${objectId}`, {
-      redirect: 'manual',
-      headers: {
-        'Authorization': auth
-      }
-    }).then((res) => {
-      if (res.type === 'opaqueredirect') {
-        window.open(
-          res.url,
-          '_blank'
-        );
-      } else {
-        throw new Error(`Not a redirect. Status: ${res.status}`);
-      }
-    });
+  getObject(objectId, versionId, download) {
+    if (download) {
+      comsAxios().get(`/object/${objectId}`, {
+        responseType: 'blob',
+        params: {
+          versionId: versionId,
+          download: download
+        }
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', response.headers['x-amz-meta-name']);
+        document.body.appendChild(link);
+        link.click();
+      });
+    } else {
+      // Not sure how to do opaqueredirect with axios so leaning back to fetch for this one
+      // https://github.com/axios/axios/issues/932
+      const url = comsAxios();
+      const auth = `Bearer ${Vue.prototype.$keycloak.token}`;
+      return fetch(`${url.defaults.baseURL}/object/${objectId}`, {
+        redirect: 'manual',
+        headers: {
+          'Authorization': auth
+        }
+      }).then((res) => {
+        if (res.type === 'opaqueredirect') {
+          window.open(
+            res.url,
+            '_blank'
+          );
+        } else {
+          throw new Error(`Not a redirect. Status: ${res.status}`);
+        }
+      });
+    }
   },
 
   /**
@@ -110,6 +128,39 @@ export default {
   // Permission
   // ------------------------------------------------------------
   /**
+   * @function addUserPermission
+   * Add an object permission
+   * @param objectId The id for the object to delete perms for
+   * @param userId The id for the user to delete perms for
+   * @param permission The perm to add
+   * @returns {Promise} An axios response
+   */
+  addUserPermission(objectId, userId, permission) {
+    return comsAxios().put(`/permission/${objectId}`,
+      [{
+        userId: userId,
+        permCode: permission
+      }]);
+  },
+
+  /**
+   * @function deleteUserPermissions
+   * Delete object permissions
+   * @param objectId The id for the object to delete perms for
+   * @param userId The id for the user to delete perms for
+   * @returns {Promise} An axios response
+   */
+  deleteUserPermissions(objectId, userId, permissions) {
+    return comsAxios().delete(`/permission/${objectId}`, {
+      params: {
+        userId: userId,
+        permCode: permissions
+      }
+    });
+  },
+
+
+  /**
    * @function listPermissions
    * Get the object permissions
    * @param objectId The id for the object to get perms for
@@ -119,4 +170,19 @@ export default {
     return comsAxios().get(`/permission/${objectId}`);
   },
   // -------------------------------------------------/permission
+
+
+  // ------------------------------------------------------------
+  // Users
+  // ------------------------------------------------------------
+  /**
+   * @function getUsers
+   * Search for users
+   * @param params The search params (see COMS spec for all options)
+   * @returns {Promise} An axios response
+   */
+  getUsers(params) {
+    return comsAxios().get('/user', { params: params });
+  },
+  // -------------------------------------------------/Users
 };

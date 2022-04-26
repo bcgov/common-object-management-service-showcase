@@ -49,14 +49,14 @@ export default {
     ...mapGetters('objects', ['selectedObjects']),
   },
   methods: {
-    ...mapActions('objects', ['deleteObject', 'getUserObjects']),
+    ...mapActions('objects', ['deleteObject', 'getMyObjects']),
     async confirmDelete() {
       await this.deleteObject(
         this.objectId ? this.objectId : this.selectedObjects[0].id
       );
       this.showDialog = false;
       // reload the main list after
-      this.getUserObjects();
+      this.getMyObjects();
     },
   },
 };

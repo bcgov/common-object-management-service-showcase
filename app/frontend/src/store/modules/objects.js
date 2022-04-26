@@ -4,28 +4,44 @@ import { NotificationTypes } from '@/utils/constants';
 export default {
   namespaced: true,
   state: {
+    allUsers: [],
     displayObject: null,
+    displayUsers: [],
     loadingDisplay: false,
     objects: [],
     selectedObjects: []
   },
   getters: {
+    allUsers: state => state.allUsers,
     displayObject: state => state.displayObject,
+    displayUsers: state => state.displayUsers,
     loadingDisplay: state => state.loadingDisplay,
     objects: state => state.objects,
     selectedObjects: state => state.selectedObjects
   },
   mutations: {
+    SET_ALL_USERS(state, users) {
+      state.allUsers = users;
+    },
     SET_DISPLAY_OBJECT(state, obj) {
       state.displayObject = obj;
+    },
+    SET_DISPLAY_USERS(state, displayUsers) {
+      state.displayUsers = displayUsers;
     },
     SET_LOADING_DISPLAY(state, obj) {
       state.loadingDisplay = obj;
     },
     SET_OBJECT_ITEM_PUBLIC(state, obj) {
+      // This is so a object setting can be toggled in a table or a selected one and reactively update the other
+      // at this point it's just the 'public' status so only do that but could replace the whole item if 
+      // more is needed (careful about object references)
       const objToSet = state.objects.find(o => o.id === obj.id);
       if (objToSet) {
         objToSet.public = obj.public;
+      }
+      if (state.displayObject && state.displayObject.guid === obj.id) {
+        state.displayObject.public = obj.public;
       }
     },
     SET_OBJECTS(state, objects) {
@@ -66,20 +82,55 @@ export default {
       }
     },
 
-    // Get a specific object
-    async downloadObject({ dispatch }, objectId) {
+    // Add/Delete user permissions
+    async addUserPermissions({ dispatch }, usr) {
       try {
-        await comsService.getObject(objectId);
+        await comsService.addUserPermission(usr.objectId, usr.userId, usr.permission);
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while adding permissions.',
+          consoleError: `Error adding perms ${usr.objectId}, ${usr.userId}: ${error}`,
+        }, { root: true });
+      }
+    },
+    async deleteUserPermissions({ dispatch }, usr) {
+      try {
+        await comsService.deleteUserPermissions(usr.objectId, usr.userId, usr.permissions);
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while deleting permissions.',
+          consoleError: `Error deleting perms ${usr.objectId}, ${usr.userId}: ${error}`,
+        }, { root: true });
+      }
+    },
+
+    // Get a specific object
+    async downloadObject({ dispatch }, obj) {
+      try {
+        await comsService.getObject(obj.objectId, obj.versionId, obj.download);
       } catch (error) {
         dispatch('notifications/addNotification', {
           message: 'An error occurred while getting the object.',
-          consoleError: `Error getting object ${objectId}: ${error}`,
+          consoleError: `Error getting object ${obj.objectId} ${obj.versionId}: ${error}`,
+        }, { root: true });
+      }
+    },
+
+    // Fetch all the IDIR users in the DB
+    async getAllUsers({ commit, dispatch }) {
+      try {
+        const response = await comsService.getUsers();
+        commit('SET_ALL_USERS', response.data);
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while getting users.',
+          consoleError: `Error getting users: ${error}`,
         }, { root: true });
       }
     },
 
     // Get objects list for the current user token
-    async getUserObjects({ dispatch, commit }) {
+    async getMyObjects({ dispatch, commit }) {
       try {
         const response = await comsService.listObjects();
         commit('SET_OBJECTS', response.data);
@@ -87,6 +138,36 @@ export default {
         dispatch('notifications/addNotification', {
           message: 'An error occurred while fetching the list of objects.',
           consoleError: `Error getting objects: ${error}`,
+        }, { root: true });
+      }
+    },
+
+    // Get the users and permissions for an object
+    async getObjectUsers({ dispatch, commit }, objId) {
+      try {
+        const response = await comsService.listPermissions(objId);
+
+        // reduce group by user id
+        const grouped = response.data.reduce(function (acc, obj) {
+          let key = obj['userId'];
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+          acc[key].push(obj);
+          return acc;
+        }, {});
+
+        // Get user details
+        const uResponse = await comsService.getUsers({ userId: Object.keys(grouped) });
+        const users = uResponse.data.map(u => ({
+          user: u,
+          roles: grouped[u.userId]
+        }));
+        commit('SET_DISPLAY_USERS', users);
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while fetching the Object Permissions.',
+          consoleError: `Error getting permissions for ${objId}: ${error}`,
         }, { root: true });
       }
     },
