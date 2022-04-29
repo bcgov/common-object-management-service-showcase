@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'UploadButton',
@@ -17,9 +17,6 @@ export default {
       isSelecting: false,
       selectedFile: null,
     };
-  },
-  computed: {
-    ...mapGetters('objects', ['selectedObject']),
   },
   methods: {
     ...mapActions('objects', ['createObject', 'getMyObjects']),

@@ -6,7 +6,7 @@ const hello = {
    * Returns hello world
    * @returns {string} A string
    */
-  getHello: () => {
+  sendEmail: (someBodyDetails) => {
     const value = 'Hello World!';
     log.info(value, { function: 'getHello' });
     return value;

@@ -236,6 +236,24 @@ export default {
           consoleError: `Error toggling public for ${JSON.stringify(obj)}: ${error}`,
         }, { root: true });
       }
-    }
+    },
+
+    // Update an object (new version)
+    async updateObject({ dispatch }, obj) {
+      try {
+        const response = await comsService.updateObject(obj.objectId, obj.object);
+        if (response) {
+          dispatch('notifications/addNotification', {
+            message: `Updated the object ${obj.objectId}`,
+            type: NotificationTypes.SUCCESS
+          }, { root: true });
+        }
+      } catch (error) {
+        dispatch('notifications/addNotification', {
+          message: 'An error occurred while uploading.',
+          consoleError: `Error uploading new version to ${obj.objectId}: ${error}`,
+        }, { root: true });
+      }
+    },
   }
 };

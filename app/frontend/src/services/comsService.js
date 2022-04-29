@@ -106,6 +106,18 @@ export default {
       }
     });
   },
+
+  /**
+   * @function updateObject
+   * Update the object record (will add new version)
+   * @returns {Promise} An axios response
+   */
+  updateObject(objectId, object) {
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    let fd = new FormData();
+    fd.append('file', object);
+    return comsAxios().post(`/object/${objectId}`, fd, config);
+  },
   // -----------------------------------------------------/object
 
 

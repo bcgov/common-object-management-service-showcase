@@ -12,7 +12,7 @@
           <template #title>
             <v-icon color="primary" class="mr-5"> mdi-file-multiple </v-icon>
             Version history for <br />
-            {{ displayObject.guid }}
+            {{ displayObject.name }}
           </template>
           <template #text>
             <v-data-table
@@ -30,7 +30,11 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <span v-bind="attrs" v-on="on">
-                      <DownloadButton mode="ICON" :objectId="displayObject.guid" :versionId="item.VersionId" />
+                      <DownloadButton
+                        mode="ICON"
+                        :objectId="displayObject.guid"
+                        :versionId="item.VersionId"
+                      />
                     </span>
                   </template>
                   <span>Download Version</span>
