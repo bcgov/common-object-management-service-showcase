@@ -14,7 +14,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <span v-bind="attrs" v-on="on">
-          <DownloadButton mode="ICON" :objectId="tableRow.id" />
+          <DownloadButton mode="ICON" :objectId="tableRow.id" :objectName="tableRow.originalName" />
         </span>
       </template>
       <span>Download Object</span>

@@ -32,6 +32,7 @@
                     <span v-bind="attrs" v-on="on">
                       <DownloadButton
                         mode="ICON"
+                        :objectName="displayObject.name"
                         :objectId="displayObject.guid"
                         :versionId="item.VersionId"
                       />
