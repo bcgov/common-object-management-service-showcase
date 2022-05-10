@@ -86,9 +86,13 @@ export default {
   computed: {
     ...mapGetters('objects', ['selectedObjects']),
     displayName: function () {
-      return this.objectName
-        ? this.objectName
-        : this.selectedObjects[0].originalName;
+      if (this.objectName) {
+        return this.objectName;
+      } else {
+        return this.selectedObjects[0]
+          ? this.selectedObjects[0].originalName
+          : '';
+      }
     },
   },
   methods: {

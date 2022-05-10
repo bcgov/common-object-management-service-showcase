@@ -3,9 +3,9 @@
     <!-- Share -->
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" icon v-bind="attrs" v-on="on">
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
+        <span v-bind="attrs" v-on="on">
+          <ShareObject :isPublic="tableRow.public" :objectId="tableRow.id" :objectName="tableRow.originalName" />
+        </span>
       </template>
       <span>Share</span>
     </v-tooltip>
@@ -62,6 +62,7 @@
 import DeleteButton from '@/components/objectList/DeleteButton.vue';
 import DownloadButton from '@/components/objectList/DownloadButton.vue';
 import ObjectPermissions from '@/components/objectList/ObjectPermissions.vue';
+import ShareObject from '@/components/objectList/ShareObject.vue';
 
 export default {
   name: 'ActionButtons',
@@ -75,6 +76,7 @@ export default {
     DeleteButton,
     DownloadButton,
     ObjectPermissions,
+    ShareObject
   },
 };
 </script>

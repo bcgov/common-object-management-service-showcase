@@ -8,6 +8,9 @@
         <li>
           <router-link :to="{ name: 'MyFiles' }">My Files</router-link>
         </li>
+        <li>
+          <router-link :to="{ name: 'FileTransfer' }">File Transfer</router-link>
+        </li>
       </ul>
     </div>
   </nav>

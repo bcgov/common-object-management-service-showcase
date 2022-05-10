@@ -7,6 +7,14 @@ Vue.use(VueRouter);
 let isFirstTransition = true;
 
 /**
+ * @function createProps
+ * Parses the route query and params to generate vue props
+ * @param {object} route The route object
+ * @returns {object} a Vue props object
+ */
+const createProps = route => ({ ...route.query, ...route.params });
+
+/**
  * Constructs and returns a Vue Router object
  * @param {string} [basePath='/'] the base server path
  * @returns {object} a Vue Router object
@@ -36,6 +44,16 @@ export default function getRouter(basePath = '/') {
           hasLogin: true,
           requiresAuth: true
         }
+      },
+      {
+        path: '/fileTransfer',
+        name: 'FileTransfer',
+        component: () => import(/* webpackChunkName: "fileTransfer" */ '@/views/FileTransfer.vue'),
+        meta: {
+          hasLogin: true,
+          requiresAuth: true
+        },
+        props: createProps
       },
       {
         path: '/404',

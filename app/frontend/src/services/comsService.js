@@ -78,8 +78,8 @@ export default {
    * List and search for all objects
    * @returns {Promise} An axios response
    */
-  listObjects() {
-    return comsAxios().get('/object');
+  listObjects(params = {}) {
+    return comsAxios().get('/object', { params: params });
   },
 
   /**
