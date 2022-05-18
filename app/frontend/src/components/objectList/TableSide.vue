@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" sm="6"><h3 class="mb-8">Properties</h3></v-col>
         <v-col cols="12" sm="6" class="text-right">
-          <AddVersion :objectId="displayObject.guid" v-if="displayObject"/>
+          <AddVersion :objectId="displayObject.guid" v-if="displayObject" />
           <VersionHistory />
 
           <v-tooltip bottom>
@@ -54,10 +54,6 @@
           <v-col cols="4">Modified:</v-col>
           <v-col cols="8"> {{ displayObject.modified }}</v-col>
         </v-row>
-        <v-row>
-          <v-col cols="4">Modified By:</v-col>
-          <v-col cols="8"> TBD</v-col>
-        </v-row>
         <v-row align="center">
           <v-col cols="4">Make file public:</v-col>
           <v-col cols="8">
@@ -70,23 +66,33 @@
         <h3 class="mt-4 mb-8">Who has access</h3>
         <v-row>
           <v-col cols="4">Create:</v-col>
-          <v-col cols="8">{{ displayObject.permissions.create }}</v-col>
+          <v-col cols="8">
+            <BaseCommaList :itemArray="displayObject.permissions.create" />
+          </v-col>
         </v-row>
         <v-row>
           <v-col cols="4">Read:</v-col>
-          <v-col cols="8">{{ displayObject.permissions.read }}</v-col>
+          <v-col cols="8">
+            <BaseCommaList :itemArray="displayObject.permissions.read" />
+          </v-col>
         </v-row>
         <v-row>
           <v-col cols="4">Update:</v-col>
-          <v-col cols="8">{{ displayObject.permissions.update }}</v-col>
+          <v-col cols="8">
+            <BaseCommaList :itemArray="displayObject.permissions.update" />
+          </v-col>
         </v-row>
         <v-row>
           <v-col cols="4">Delete:</v-col>
-          <v-col cols="8">{{ displayObject.permissions.delete }}</v-col>
+          <v-col cols="8">
+            <BaseCommaList :itemArray="displayObject.permissions.delete" />
+          </v-col>
         </v-row>
         <v-row>
           <v-col cols="4">Manage:</v-col>
-          <v-col cols="8">{{ displayObject.permissions.manage }}</v-col>
+          <v-col cols="8">
+            <BaseCommaList :itemArray="displayObject.permissions.manage" />
+          </v-col>
         </v-row>
       </div>
     </v-skeleton-loader>

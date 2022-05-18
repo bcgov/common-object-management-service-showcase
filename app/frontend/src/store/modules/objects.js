@@ -1,6 +1,10 @@
 import { comsService } from '@/services';
 import { NotificationTypes } from '@/utils/constants';
 
+function getUsernameById(users, id) {
+  return users.find(({ userId }) => userId === id).username;
+}
+
 export default {
   namespaced: true,
   state: {
@@ -183,6 +187,11 @@ export default {
         // Get some data about the object out of the list (since there's no API calls to get this)
         const objFromList = state.objects.find(o => o.id === objectId);
 
+        // Get users so we can map IDs
+        // Probably a better way to do this through joins in the API, could change to have object fetch join
+        const usResponse = await comsService.getUsers();
+        const users = usResponse.data;
+
         // TODO: extract to some transform util rather than here?
         const toDisplay = {
           name: hResponse.headers['x-amz-meta-name'],
@@ -192,17 +201,16 @@ export default {
           size: hResponse.headers['content-length'],
           type: hResponse.headers['content-type'],
           uploaded: objFromList.createdAt,
-          uploadedBy: objFromList.createdBy,
+          uploadedBy: getUsernameById(users, objFromList.createdBy),
           modified: hResponse.headers['last-modified'],
-          // modifiedBy
           public: objFromList.public,
           versions: vResponse.data,
           permissions: {
-            create: pResponse.data.filter(p => p.permCode === 'CREATE').map(p => p.userId),
-            read: pResponse.data.filter(p => p.permCode === 'READ').map(p => p.userId),
-            update: pResponse.data.filter(p => p.permCode === 'UPDATE').map(p => p.userId),
-            delete: pResponse.data.filter(p => p.permCode === 'DELETE').map(p => p.userId),
-            manage: pResponse.data.filter(p => p.permCode === 'MANAGE').map(p => p.userId)
+            create: pResponse.data.filter(p => p.permCode === 'CREATE').map(p => getUsernameById(users, p.userId)),
+            read: pResponse.data.filter(p => p.permCode === 'READ').map(p => getUsernameById(users, p.userId)),
+            update: pResponse.data.filter(p => p.permCode === 'UPDATE').map(p => getUsernameById(users, p.userId)),
+            delete: pResponse.data.filter(p => p.permCode === 'DELETE').map(p => getUsernameById(users, p.userId)),
+            manage: pResponse.data.filter(p => p.permCode === 'MANAGE').map(p => getUsernameById(users, p.userId))
           }
         };
         commit('SET_DISPLAY_OBJECT', toDisplay);
