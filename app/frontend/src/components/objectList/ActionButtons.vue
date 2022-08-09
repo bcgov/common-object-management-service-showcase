@@ -4,7 +4,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <span v-bind="attrs" v-on="on">
-          <ShareObject :isPublic="tableRow.public" :objectId="tableRow.id" :objectName="tableRow.originalName" />
+          <ShareObject :isPublic="tableRow.public" :objectId="tableRow.id" :objectName="tableRow.id" />
         </span>
       </template>
       <span>Share</span>
@@ -14,7 +14,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <span v-bind="attrs" v-on="on">
-          <DownloadButton mode="ICON" :objectId="tableRow.id" :objectName="tableRow.originalName" />
+          <DownloadButton mode="ICON" :objectId="tableRow.id" :objectName="tableRow.id" />
         </span>
       </template>
       <span>Download Object</span>
@@ -24,7 +24,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on, attrs }">
         <span v-bind="attrs" v-on="on">
-          <ObjectPermissions :objectId="tableRow.id" :objectName="tableRow.originalName" />
+          <ObjectPermissions :objectId="tableRow.id" :objectName="tableRow.id" />
         </span>
       </template>
       <span>Permissions</span>

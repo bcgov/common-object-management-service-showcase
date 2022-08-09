@@ -9,7 +9,7 @@
     >
       <template #title>
         <v-icon color="primary" class="mr-5"> mdi-share-variant </v-icon>
-        Share {{ objectName }}
+        Share <span class="ml-1 font-weight-bold"> {{ objectName }}</span>
       </template>
       <template #text>
         <v-radio-group v-model="shareMode">
@@ -26,14 +26,14 @@
         <!-- Invite a specific user -->
         <div v-if="shareMode === 'user'">
           <h2>Invite</h2>
-          <v-row>
+          <v-row class="mt-2">
             <v-col md="6">
               <v-select
                 outlined
                 dense
                 v-model="userToAdd"
-                :items="allUsers"
-                item-text="username"
+                :items="allOtherUsers"
+                item-text="email"
                 item-value="userId"
                 label="Add User"
                 return-object
@@ -41,9 +41,11 @@
               />
             </v-col>
           </v-row>
+          <div>Note: This will not trigger any notifications.</div>
+
           <v-btn
             color="primary"
-            class="mt-0"
+            class="mt-1"
             depressed
             :disabled="!userToAdd"
             @click="addUser"
@@ -135,12 +137,19 @@ export default {
   },
   computed: {
     ...mapGetters('objects', ['allUsers', 'displayUsers']),
+    ...mapGetters('auth', ['userName']),
     comsApiRoute: function () {
       return `${comsAxios().defaults.baseURL}/object/${this.objectId}`;
     },
     showcasePageRoute: function () {
       return `${window.location.origin}/app/fileTransfer?id=${this.objectId}`;
     },
+    allOtherUsers: function () {
+      return this.allUsers
+        .filter( user =>
+          user.username !== 'system' &&
+          user.username !== this.userName);
+    }
   },
   methods: {
     ...mapActions('objects', [

@@ -56,6 +56,15 @@ export default function getRouter(basePath = '/') {
         props: createProps
       },
       {
+        path: '/developer',
+        name: 'Developer',
+        component: () => import(/* webpackChunkName: "developer" */ '@/views/Developer.vue'),
+        meta: {
+          hasLogin: true,
+          requiresAuth: true
+        },
+      },
+      {
         path: '/404',
         alias: '*',
         name: 'NotFound',

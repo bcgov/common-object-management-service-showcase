@@ -2,7 +2,7 @@
   <v-container>
     <BaseSecure>
       <h1 class="my-6">File Transfer</h1>
-      <p>You have had 1 file shared with you</p>
+      <!-- <p>You have had 1 file shared with you</p> -->
       <FileTransferTable :ids="[id]"/>
     </BaseSecure>
   </v-container>
@@ -16,8 +16,8 @@ export default {
   components: {
     FileTransferTable,
   },
-  props: { 
-    // todo: handle array params? 
+  props: {
+    // todo: handle array params?
     id: {
       type: String,
     },

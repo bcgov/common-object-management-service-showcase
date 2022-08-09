@@ -28,8 +28,7 @@
       <div
         v-if="loadingDisplay || displayObject"
         class="flex-shrink-1"
-        style="max-width: 33%"
-      >
+        style="max-width: 33%; min-width: 33%">
         <TableSide />
       </div>
     </div>
@@ -55,9 +54,9 @@ export default {
       singleSelect: false,
       headers: [
         {
-          text: 'Name',
+          text: 'Object ID',
           align: 'start',
-          value: 'originalName',
+          value: 'id',
         },
         { text: 'Created', value: 'createdAt' },
         { text: 'Updated', value: 'updatedAt' },

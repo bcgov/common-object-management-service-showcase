@@ -5,6 +5,10 @@ function getUsernameById(users, id) {
   return users.find(({ userId }) => userId === id).username;
 }
 
+function getUserFullNameById(users, id) {
+  return users.find(({ userId }) => userId === id).fullName;
+}
+
 export default {
   namespaced: true,
   state: {
@@ -38,7 +42,7 @@ export default {
     },
     SET_OBJECT_ITEM_PUBLIC(state, obj) {
       // This is so a object setting can be toggled in a table or a selected one and reactively update the other
-      // at this point it's just the 'public' status so only do that but could replace the whole item if 
+      // at this point it's just the 'public' status so only do that but could replace the whole item if
       // more is needed (careful about object references)
       const objToSet = state.objects.find(o => o.id === obj.id);
       if (objToSet) {
@@ -123,7 +127,8 @@ export default {
     // Fetch all the IDIR users in the DB
     async getAllUsers({ commit, dispatch }) {
       try {
-        const response = await comsService.getUsers();
+        // TODO: provide a param, currently COMS api GET /user requires at least one param
+        const response = await comsService.getUsers({ active: true });
         commit('SET_ALL_USERS', response.data);
       } catch (error) {
         dispatch('notifications/addNotification', {
@@ -189,11 +194,19 @@ export default {
 
         // Get users so we can map IDs
         // Probably a better way to do this through joins in the API, could change to have object fetch join
-        const usResponse = await comsService.getUsers();
+        // TODO: provide a param, currently COMS api GET /user requires at least one param
+        const usResponse = await comsService.getUsers({ active: true });
         const users = usResponse.data;
 
         // TODO: extract to some transform util rather than here?
         const toDisplay = {
+          meta: Object
+            .fromEntries(Object
+              .entries(hResponse.headers)
+              .filter((item) => item[0].includes('x-amz-meta'))
+              .map(([key, value]) => {
+                return [key.substring(11), value];
+              })),
           name: hResponse.headers['x-amz-meta-name'],
           guid: hResponse.headers['x-amz-meta-id'],
           versionId: hResponse.headers['x-amz-version-id'],
@@ -201,7 +214,7 @@ export default {
           size: hResponse.headers['content-length'],
           type: hResponse.headers['content-type'],
           uploaded: objFromList.createdAt,
-          uploadedBy: getUsernameById(users, objFromList.createdBy),
+          uploadedBy: getUserFullNameById(users, objFromList.createdBy),
           modified: hResponse.headers['last-modified'],
           public: objFromList.public,
           versions: vResponse.data,
