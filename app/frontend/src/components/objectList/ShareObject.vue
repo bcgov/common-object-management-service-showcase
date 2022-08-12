@@ -26,22 +26,37 @@
         <!-- Invite a specific user -->
         <div v-if="shareMode === 'user'">
           <h2>Invite</h2>
+
+          <ul class="mt-2">
+            <li>This will grant the READ permission on this file to another user</li>
+            <li>They will find the file on the <router-link :to="{ name: 'FileTransfer' }">File Transfer</router-link> page
+            <li>The showcase app has some limitations:
+              <ul>
+                <li>It does not send any notifications</li>
+                <li>You can only choose from other users that have used this showcase app to upload a file</li>
+                <li>
+                  <strong>Files and Data stored by the COMS SHowcase app are periodically purged.</strong>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
           <v-row class="mt-2">
             <v-col md="6">
+
               <v-select
                 outlined
                 dense
                 v-model="userToAdd"
                 :items="allOtherUsers"
-                item-text="email"
+                item-text="fullName"
                 item-value="userId"
-                label="Add User"
+                label="Select User"
                 return-object
                 single-line
               />
             </v-col>
           </v-row>
-          <div>Note: This will not trigger any notifications.</div>
 
           <v-btn
             color="primary"
@@ -54,7 +69,8 @@
           </v-btn>
 
           <div v-if="sharedWithUser">
-            <h2 class="mt-8 mb-3">Share</h2>
+            <div class="my-4">{{ userToAdd.fullName }} will find the file on the <router-link :to="{ name: 'FileTransfer' }">File Transfer</router-link> page using the following link:</div>
+
             <v-text-field
               outlined
               readonly
@@ -63,12 +79,17 @@
               :value="showcasePageRoute"
             ></v-text-field>
 
-            <h2 class="mb-3">QR Code</h2>
+            <BaseCopyToClipboard
+              :copyText="showcasePageRoute"
+              snackBarText="Copied to clipboard"
+              tooltipText="Copy Share Link to clipboard" />
+
+            <!-- <h2 class="mb-3">QR Code</h2>
             <qrcode-vue
               :value="showcasePageRoute"
               size="250"
               level="H"
-            ></qrcode-vue>
+            ></qrcode-vue> -->
           </div>
         </div>
 
@@ -145,6 +166,9 @@ export default {
       return `${window.location.origin}/app/fileTransfer?id=${this.objectId}`;
     },
     allOtherUsers: function () {
+
+      console.log(this.allUsers);
+
       return this.allUsers
         .filter( user =>
           user.username !== 'system' &&
@@ -164,6 +188,7 @@ export default {
         userId: this.userToAdd.userId,
         permission: 'READ',
       });
+      this.shareMode = 'user';
       this.sharedWithUser = true;
     },
     openShareDialog() {

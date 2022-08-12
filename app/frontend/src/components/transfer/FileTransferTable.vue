@@ -31,11 +31,10 @@ export default {
       loading: 'true',
       headers: [
         {
-          text: 'Name',
+          text: 'Object ID',
           align: 'start',
-          value: 'originalName',
+          value: 'id',
         },
-        { text: 'Type', value: 'mimeType' },
         { text: '', value: 'actions', align: 'end' },
       ],
     };
