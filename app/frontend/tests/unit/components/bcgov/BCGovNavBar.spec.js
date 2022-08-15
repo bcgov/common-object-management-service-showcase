@@ -13,14 +13,14 @@ describe('BCGovNavBar.vue', () => {
     vuetify = new Vuetify();
   });
 
-  it.skip('renders', () => {
+  it('renders', () => {
     const wrapper = shallowMount(BCGovNavBar, {
       vuetify,
       router,
       stubs: ['router-link', 'router-view']
     });
 
-    expect(wrapper.text()).toContain('Home');
-    expect(wrapper.text()).toContain('Secure');
+    expect(wrapper.text()).toContain('About');
+    expect(wrapper.text()).toContain('My Files');
   });
 });
