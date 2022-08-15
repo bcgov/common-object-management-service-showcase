@@ -25,7 +25,7 @@
               </h4>
               <vue-json-pretty :data="tokenParsed" />
             </v-col>
-            <v-col cols="6">
+            <v-col cols="5" offset="1">
               <h4>
                 JWT Token
                 <BaseCopyToClipboard

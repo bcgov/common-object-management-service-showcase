@@ -6,9 +6,11 @@ let nextId = 1;
 export default {
   namespaced: true,
   state: {
-    notifications: []
+    notifications: [],
+    uploadWarningDismissed: false
   },
   getters: {
+    uploadWarningDismissed: state => state.uploadWarningDismissed
   },
   mutations: {
     PUSH(state, notification) {
@@ -21,6 +23,9 @@ export default {
       state.notifications = state.notifications.filter(
         notification => notification.id !== notificationToRemove.id
       );
+    },
+    dismissUploadWarning(state) {
+      state.uploadWarningDismissed = true;
     },
     onNotification(state, notification) {
       console.log('onNotification()'); // eslint-disable-line no-console

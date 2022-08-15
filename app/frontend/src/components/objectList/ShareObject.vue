@@ -166,9 +166,6 @@ export default {
       return `${window.location.origin}/app/fileTransfer?id=${this.objectId}`;
     },
     allOtherUsers: function () {
-
-      console.log(this.allUsers);
-
       return this.allUsers
         .filter( user =>
           user.username !== 'system' &&
