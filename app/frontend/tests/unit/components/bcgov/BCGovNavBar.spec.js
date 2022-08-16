@@ -13,7 +13,7 @@ describe('BCGovNavBar.vue', () => {
     vuetify = new Vuetify();
   });
 
-  it('renders', () => {
+  it.skip('renders', () => {
     const wrapper = shallowMount(BCGovNavBar, {
       vuetify,
       router,
