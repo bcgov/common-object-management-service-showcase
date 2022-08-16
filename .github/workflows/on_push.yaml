@@ -2,7 +2,7 @@ name: Push
 
 env:
   ACRONYM: comss
-  APP_NAME: coms-showcase
+  APP_NAME: common-object-management-service-showcase
   NAMESPACE_PREFIX: 1dca6b
 
 on:
