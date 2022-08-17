@@ -28,14 +28,14 @@
           <h2>Invite</h2>
 
           <ul class="mt-2">
-            <li>This will grant the READ permission on this file to another user</li>
+            <li>This will allow another user to read this file.</li>
             <li>They will find the file on the <router-link :to="{ name: 'FileTransfer' }">File Transfer</router-link> page
             <li>The showcase app has some limitations:
               <ul>
                 <li>It does not send any notifications</li>
                 <li>You can only choose from other users that have used this showcase app to upload a file</li>
                 <li>
-                  <strong>Files and Data stored by the COMS SHowcase app are periodically purged.</strong>
+                  <strong>Files and Data stored by the COMS Showcase app are periodically purged.</strong>
                 </li>
               </ul>
             </li>
@@ -75,21 +75,15 @@
               outlined
               readonly
               label="Link to file"
-              append-outer-icon="mdi-content-copy"
               :value="showcasePageRoute"
             ></v-text-field>
 
-            <BaseCopyToClipboard
-              :copyText="showcasePageRoute"
-              snackBarText="Copied to clipboard"
-              tooltipText="Copy Share Link to clipboard" />
-
-            <!-- <h2 class="mb-3">QR Code</h2>
+            <h2 class="mb-3">QR Code</h2>
             <qrcode-vue
               :value="showcasePageRoute"
               size="250"
               level="H"
-            ></qrcode-vue> -->
+            ></qrcode-vue>
           </div>
         </div>
 
@@ -108,7 +102,6 @@
               outlined
               readonly
               label="Link to file"
-              append-outer-icon="mdi-content-copy"
               :value="comsApiRoute"
             ></v-text-field>
 

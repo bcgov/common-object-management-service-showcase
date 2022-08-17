@@ -18,7 +18,7 @@ describe('Home.vue', () => {
     store = new Vuex.Store();
   });
 
-  it.only('renders', () => {
+  it('renders', () => {
 
     store.registerModule('auth', {
       namespaced: true,

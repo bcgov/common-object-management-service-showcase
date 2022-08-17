@@ -11,7 +11,7 @@
       transition="slide-y-transition"
     >
       Do not upload files that contain personal or private information.<br />
-      Files are periodically deleted from the connected object storage bucket and COMS database.
+      Files may be periodically deleted from the connected object storage bucket and COMS database.
     </v-alert>
   </div>
 </template>
@@ -31,6 +31,6 @@ export default {
 </script>
 <style scoped>
 .v-alert {
-  margin-bottom: 35px;
+  margin-bottom: 3rem;
 }
 </style>
