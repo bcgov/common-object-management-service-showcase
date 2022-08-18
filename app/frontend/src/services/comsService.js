@@ -79,6 +79,8 @@ export default {
    * @returns {Promise} An axios response
    */
   listObjects(params = {}) {
+    // remove objId array if its first element is undefined
+    if( params.objId && params.objId[0] === undefined) delete params.objId;
     return comsAxios().get('/object', { params: params });
   },
 
@@ -95,8 +97,8 @@ export default {
   /**
    * @function togglePublic
    * Toggles the public property for an object
-   * @param objectId The id for the object 
-   * @param isPublic Boolean on public status 
+   * @param objectId The id for the object
+   * @param isPublic Boolean on public status
    * @returns {Promise} An axios response
    */
   togglePublic(objectId, isPublic) {
@@ -131,7 +133,7 @@ export default {
    * @returns {Promise} An axios response
    */
   listObjectVersions(objectId) {
-    return comsAxios().get(`/object/${objectId}/versions`);
+    return comsAxios().get(`/object/${objectId}/version`);
   },
   // -----------------------------------------------------/version
 

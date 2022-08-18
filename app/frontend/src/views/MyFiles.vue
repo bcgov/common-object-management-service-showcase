@@ -2,6 +2,7 @@
   <v-container>
     <BaseSecure>
       <h1 class="my-6">My Files</h1>
+      <BaseUploadWarning />
       <HeaderButtons />
       <MyFilesTable />
     </BaseSecure>

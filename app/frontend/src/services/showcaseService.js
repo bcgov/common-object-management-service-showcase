@@ -1,8 +1,8 @@
-import axios from 'axios';
+import { appAxios } from '@/services/interceptors';
 import { ApiRoutes } from '@/utils/constants';
 
 // Calls to the showcase app backend API (nothing to do in here at the moment, might use more later)
-// using non-interceptor axios (no tokens used in )
+// using non-interceptor axios (no tokens)
 export default {
   /**
    * @function getHello
@@ -10,6 +10,6 @@ export default {
    * @returns {Promise} An axios response
    */
   getHello() {
-    return axios.get(ApiRoutes.HELLO);
+    return appAxios().get(ApiRoutes.HELLO);
   }
 };

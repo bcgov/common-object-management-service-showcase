@@ -6,7 +6,8 @@
       "endpoint": "http://localhost:3000/v1"
     },
     "keycloak": {
-      "serverUrl": "https://dev.oidc.gov.bc.ca/auth"
+      "serverUrl": "https://dev.loginproxy.gov.bc.ca/auth",
+      "realm": "standard"
     }
   },
   "server": {

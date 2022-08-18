@@ -9,8 +9,7 @@
     >
       <template #title>
         <v-icon color="primary" class="mr-5"> mdi-account-group </v-icon>
-        Permissions for <br />
-        {{ objectName }}
+        Permissions for <span class="ml-1 font-weight-bold">{{ objectName }}</span>
       </template>
       <template #text>
         <!-- Add a new user -->
@@ -21,7 +20,7 @@
                 outlined
                 dense
                 v-model="userToAdd"
-                :items="allUsers"
+                :items="allOtherUsers"
                 item-text="username"
                 item-value="userId"
                 label="Add User"
@@ -138,6 +137,13 @@ export default {
   },
   computed: {
     ...mapGetters('objects', ['allUsers', 'displayUsers']),
+    ...mapGetters('auth', ['userName']),
+    allOtherUsers: function () {
+      return this.allUsers
+        .filter( user =>
+          user.username !== 'system' &&
+          user.username !== this.userName);
+    }
   },
   methods: {
     ...mapActions('objects', [

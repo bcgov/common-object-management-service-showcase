@@ -9,7 +9,7 @@
     >
       <template #title>
         <v-icon color="primary" class="mr-5"> mdi-share-variant </v-icon>
-        Share {{ objectName }}
+        Share <span class="ml-1 font-weight-bold"> {{ objectName }}</span>
       </template>
       <template #text>
         <v-radio-group v-model="shareMode">
@@ -26,24 +26,41 @@
         <!-- Invite a specific user -->
         <div v-if="shareMode === 'user'">
           <h2>Invite</h2>
-          <v-row>
+
+          <ul class="mt-2">
+            <li>This will allow another user to read this file.</li>
+            <li>They will find the file on the <router-link :to="{ name: 'FileTransfer' }">File Transfer</router-link> page
+            <li>The showcase app has some limitations:
+              <ul>
+                <li>It does not send any notifications</li>
+                <li>You can only choose from other users that have used this showcase app to upload a file</li>
+                <li>
+                  <strong>Files and Data stored by the COMS Showcase app are periodically purged.</strong>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <v-row class="mt-2">
             <v-col md="6">
+
               <v-select
                 outlined
                 dense
                 v-model="userToAdd"
-                :items="allUsers"
-                item-text="username"
+                :items="allOtherUsers"
+                item-text="fullName"
                 item-value="userId"
-                label="Add User"
+                label="Select User"
                 return-object
                 single-line
               />
             </v-col>
           </v-row>
+
           <v-btn
             color="primary"
-            class="mt-0"
+            class="mt-1"
             depressed
             :disabled="!userToAdd"
             @click="addUser"
@@ -52,12 +69,12 @@
           </v-btn>
 
           <div v-if="sharedWithUser">
-            <h2 class="mt-8 mb-3">Share</h2>
+            <div class="my-4">{{ userToAdd.fullName }} will find the file on the <router-link :to="{ name: 'FileTransfer' }">File Transfer</router-link> page using the following link:</div>
+
             <v-text-field
               outlined
               readonly
               label="Link to file"
-              append-outer-icon="mdi-content-copy"
               :value="showcasePageRoute"
             ></v-text-field>
 
@@ -85,7 +102,6 @@
               outlined
               readonly
               label="Link to file"
-              append-outer-icon="mdi-content-copy"
               :value="comsApiRoute"
             ></v-text-field>
 
@@ -135,12 +151,19 @@ export default {
   },
   computed: {
     ...mapGetters('objects', ['allUsers', 'displayUsers']),
+    ...mapGetters('auth', ['userName']),
     comsApiRoute: function () {
       return `${comsAxios().defaults.baseURL}/object/${this.objectId}`;
     },
     showcasePageRoute: function () {
       return `${window.location.origin}/app/fileTransfer?id=${this.objectId}`;
     },
+    allOtherUsers: function () {
+      return this.allUsers
+        .filter( user =>
+          user.username !== 'system' &&
+          user.username !== this.userName);
+    }
   },
   methods: {
     ...mapActions('objects', [
@@ -155,6 +178,7 @@ export default {
         userId: this.userToAdd.userId,
         permission: 'READ',
       });
+      this.shareMode = 'user';
       this.sharedWithUser = true;
     },
     openShareDialog() {

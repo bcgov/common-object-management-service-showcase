@@ -1,5 +1,5 @@
 <template>
-  <div class="object-details">
+  <div class="object-details pb-5">
     <v-skeleton-loader :loading="loadingDisplay" type="card" min-width="400">
       <v-row>
         <v-col cols="12" sm="6"><h3 class="mb-8">Properties</h3></v-col>
@@ -27,16 +27,12 @@
 
       <div v-if="displayObject">
         <v-row>
-          <v-col cols="4">File name:</v-col>
-          <v-col cols="8"> {{ displayObject.name }}</v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4">GUID:</v-col>
+          <v-col cols="4">Object ID:</v-col>
           <v-col cols="8"> {{ displayObject.guid }}</v-col>
         </v-row>
         <v-row>
-          <v-col cols="4">Size (content-length):</v-col>
-          <v-col cols="8"> {{ displayObject.size }}</v-col>
+          <v-col cols="4">Size:</v-col>
+          <v-col cols="8"> {{ displayObject.size }} bytes</v-col>
         </v-row>
         <v-row>
           <v-col cols="4">Type:</v-col>
@@ -47,51 +43,21 @@
           <v-col cols="8"> {{ displayObject.uploaded | formatDateLong }}</v-col>
         </v-row>
         <v-row>
-          <v-col cols="4">UploadedBy:</v-col>
+          <v-col cols="4">Modified:</v-col>
+          <v-col cols="8"> {{ displayObject.modified | formatDateLong }}</v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="4">Uploaded By:</v-col>
           <v-col cols="8"> {{ displayObject.uploadedBy }}</v-col>
         </v-row>
-        <v-row>
-          <v-col cols="4">Modified:</v-col>
-          <v-col cols="8"> {{ displayObject.modified }}</v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col cols="4">Make file public:</v-col>
-          <v-col cols="8">
-            <PublicToggle
-              :isPublic="displayObject.public"
-              :objId="displayObject.guid"
-            />
-          </v-col>
-        </v-row>
-        <h3 class="mt-4 mb-8">Who has access</h3>
-        <v-row>
-          <v-col cols="4">Create:</v-col>
-          <v-col cols="8">
-            <BaseCommaList :itemArray="displayObject.permissions.create" />
-          </v-col>
+        <v-row class="pb-3">
+          <v-col cols="12">Metadata:</v-col>
         </v-row>
         <v-row>
-          <v-col cols="4">Read:</v-col>
-          <v-col cols="8">
-            <BaseCommaList :itemArray="displayObject.permissions.read" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4">Update:</v-col>
-          <v-col cols="8">
-            <BaseCommaList :itemArray="displayObject.permissions.update" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4">Delete:</v-col>
-          <v-col cols="8">
-            <BaseCommaList :itemArray="displayObject.permissions.delete" />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4">Manage:</v-col>
-          <v-col cols="8">
-            <BaseCommaList :itemArray="displayObject.permissions.manage" />
+          <v-col cols="12">
+            <v-row v-for="(v, k) in displayObject.meta" :key="k" class="text-caption">
+              <v-col cols="4">{{ k }}: </v-col><v-col cols="8">{{ v }}</v-col>
+            </v-row>
           </v-col>
         </v-row>
       </div>
@@ -103,13 +69,11 @@
 import { mapGetters, mapMutations } from 'vuex';
 
 import AddVersion from '@/components/objectList/AddVersion.vue';
-import PublicToggle from '@/components/objectList/PublicToggle.vue';
 import VersionHistory from '@/components/objectList/VersionHistory.vue';
 
 export default {
   components: {
     AddVersion,
-    PublicToggle,
     VersionHistory,
   },
   computed: {
