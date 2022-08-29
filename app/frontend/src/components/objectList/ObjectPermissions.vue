@@ -9,7 +9,7 @@
     >
       <template #title>
         <v-icon color="primary" class="mr-5"> mdi-account-group </v-icon>
-        Permissions for <span class="ml-1 font-weight-bold">{{ objectName }}</span>
+        Permissions for object: <span class="ml-1 font-weight-bold">{{ objectName }}</span>
       </template>
       <template #text>
         <!-- Add a new user -->
@@ -21,7 +21,7 @@
                 dense
                 v-model="userToAdd"
                 :items="allOtherUsers"
-                item-text="username"
+                item-text="fullName"
                 item-value="userId"
                 label="Add User"
                 return-object
