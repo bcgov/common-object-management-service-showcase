@@ -1,5 +1,4 @@
 import { comsAxios } from '@/services/interceptors';
-import Vue from 'vue';
 
 // Calls to the COMS API
 export default {
@@ -58,7 +57,7 @@ export default {
           download: 'url'
         }
       }).then((response) => {
-        const url = response.data
+        const url = response.data;
         const link = document.createElement('a');
         link.href = url;
         document.body.appendChild(link);
