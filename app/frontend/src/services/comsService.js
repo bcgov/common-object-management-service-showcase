@@ -58,10 +58,7 @@ export default {
         }
       }).then((response) => {
         const url = response.data;
-        const link = document.createElement('a');
-        link.href = url;
-        document.body.appendChild(link);
-        link.click();
+        window.open(url, '_blank');
       });
     }
   },
