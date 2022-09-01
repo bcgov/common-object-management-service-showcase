@@ -1,5 +1,4 @@
 import { comsAxios } from '@/services/interceptors';
-import Vue from 'vue';
 
 // Calls to the COMS API
 export default {
@@ -40,7 +39,7 @@ export default {
         responseType: 'blob',
         params: {
           versionId: versionId,
-          download: download
+          download: 'proxy'
         }
       }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -51,24 +50,15 @@ export default {
         link.click();
       });
     } else {
-      // Not sure how to do opaqueredirect with axios so leaning back to fetch for this one
-      // https://github.com/axios/axios/issues/932
-      const url = comsAxios();
-      const auth = `Bearer ${Vue.prototype.$keycloak.token}`;
-      return fetch(`${url.defaults.baseURL}/object/${objectId}`, {
-        redirect: 'manual',
-        headers: {
-          'Authorization': auth
+      // Get just the link to the unlocked object store entity and open it
+      comsAxios().get(`/object/${objectId}`, {
+        params: {
+          versionId: versionId,
+          download: 'url'
         }
-      }).then((res) => {
-        if (res.type === 'opaqueredirect') {
-          window.open(
-            res.url,
-            '_blank'
-          );
-        } else {
-          throw new Error(`Not a redirect. Status: ${res.status}`);
-        }
+      }).then((response) => {
+        const url = response.data;
+        window.open(url, '_blank');
       });
     }
   },
@@ -80,7 +70,7 @@ export default {
    */
   listObjects(params = {}) {
     // remove objId array if its first element is undefined
-    if( params.objId && params.objId[0] === undefined) delete params.objId;
+    if (params.objId && params.objId[0] === undefined) delete params.objId;
     return comsAxios().get('/object', { params: params });
   },
 
